@@ -31,4 +31,12 @@ class User extends Authenticatable
             'role' => UserRole::class,
         ];
     }
+
+    /**
+     * Haal de social accounts op die bij deze gebruiker horen.
+     */
+    public function socialAccounts()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
 }
