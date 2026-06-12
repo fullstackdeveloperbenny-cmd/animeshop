@@ -28,6 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Als het een admin is, stuur hem naar het donkere admin-dashboard
+        if ($request->user()->role === \App\Enums\UserRole::ADMIN) {
+            return redirect()->intended(route('admin.dashboard', absolute: false));
+        }
+
+        // Gewone klanten gaan naar het standaard (witte) dashboard
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
