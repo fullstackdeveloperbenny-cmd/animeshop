@@ -19,8 +19,11 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard.index');
+        return view('admin.dashboard');
     })->name('dashboard');
+
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';
