@@ -78,8 +78,9 @@
                     {!! nl2br(e($product->description)) !!}
                 </div>
 
-                <!-- Action Box (Glassmorphism) -->
-                <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl mb-10 shadow-2xl relative overflow-hidden">
+                <!-- Action Box (Glassmorphism) as a Form -->
+                <form action="{{ route('cart.add', $product) }}" method="POST" class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl mb-10 shadow-2xl relative overflow-hidden">
+                    @csrf
                     <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
                     
                     @if($product->variants->isNotEmpty())
@@ -111,13 +112,18 @@
                         </div>
                     @endif
 
+                    <!-- Aantal -->
+                    <div class="mb-8 relative z-10">
+                        <label for="quantity" class="block text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-3">Aantal</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="100" class="w-full pl-6 py-5 bg-black/50 border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-bold text-lg transition-colors hover:bg-black/70">
+                    </div>
+
                     <!-- Add to Cart -->
-                    <button class="relative z-10 w-full bg-[#ff2a42] hover:bg-[#d91c30] text-white font-black py-5 px-8 rounded-xl transition-all uppercase tracking-[0.2em] flex items-center justify-center gap-4 shadow-[0_0_20px_rgba(255,42,66,0.3)] hover:shadow-[0_0_30px_rgba(255,42,66,0.5)] group hover:-translate-y-1">
+                    <button type="submit" class="relative z-10 w-full bg-[#ff2a42] hover:bg-[#d91c30] text-white font-black py-5 px-8 rounded-xl transition-all uppercase tracking-[0.2em] flex items-center justify-center gap-4 shadow-[0_0_20px_rgba(255,42,66,0.3)] hover:shadow-[0_0_30px_rgba(255,42,66,0.5)] group hover:-translate-y-1">
                         <svg class="w-6 h-6 transform group-hover:-rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                         Voeg Toe Aan Loot
                     </button>
-                    <p class="relative z-10 text-[10px] text-center text-gray-500 font-bold mt-5 uppercase tracking-widest">Functionaliteit volgt in Fase 7</p>
-                </div>
+                </form>
                 
                 <!-- Perks -->
                 <div class="grid grid-cols-2 gap-4 mt-auto">
