@@ -23,6 +23,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     })->name('dashboard');
 
     Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';
