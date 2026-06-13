@@ -8,6 +8,11 @@ Route::get('/product/{product:slug}', [\App\Http\Controllers\ShopController::cla
 Route::get('/over-ons', [\App\Http\Controllers\PageController::class, 'about'])->name('pages.about');
 Route::get('/contact', [\App\Http\Controllers\PageController::class, 'contact'])->name('pages.contact');
 
+// Winkelwagen Routes
+Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{product}', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/update/{itemKey}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{itemKey}', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

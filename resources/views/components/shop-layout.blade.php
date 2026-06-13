@@ -44,26 +44,36 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden sm:flex items-center gap-8">
-                    <a href="{{ route('shop.index') }}" class="text-sm font-bold {{ request()->routeIs('shop.*') ? 'text-[#ff2a42]' : 'text-gray-300 hover:text-white hover:text-[#ff2a42]' }} uppercase tracking-widest transition-colors">Catalogus</a>
+                    <a href="{{ route('shop.index') }}" class="text-sm font-bold {{ request()->routeIs('shop.*') && !request()->routeIs('cart.*') ? 'text-[#ff2a42]' : 'text-gray-300 hover:text-white hover:text-[#ff2a42]' }} uppercase tracking-widest transition-colors">Catalogus</a>
                     <a href="{{ route('pages.about') }}" class="text-sm font-bold {{ request()->routeIs('pages.about') ? 'text-[#ff2a42]' : 'text-gray-300 hover:text-white hover:text-[#ff2a42]' }} uppercase tracking-widest transition-colors">Over Ons</a>
                     <a href="{{ route('pages.contact') }}" class="text-sm font-bold {{ request()->routeIs('pages.contact') ? 'text-[#ff2a42]' : 'text-gray-300 hover:text-white hover:text-[#ff2a42]' }} uppercase tracking-widest transition-colors">Contact</a>
                     
-                    @if (Route::has('login'))
-                        @auth
-                            @if(auth()->user()->role->value === 'admin')
-                                <a href="{{ route('admin.dashboard') }}" class="px-5 py-2.5 rounded-lg border border-[#ff2a42] text-[#ff2a42] font-bold text-xs uppercase tracking-widest hover:bg-[#ff2a42] hover:text-white transition-all shadow-[0_0_15px_rgba(255,42,66,0.2)]">Admin Panel</a>
-                            @else
-                                <a href="{{ route('dashboard') }}" class="text-sm font-bold text-gray-300 hover:text-white uppercase tracking-widest transition-colors">Profiel</a>
+                    <div class="flex items-center gap-6 border-l border-white/10 pl-8 ml-4">
+                        <!-- Winkelwagen Icoon -->
+                        @php
+                            $cartCount = app(\App\Services\CartService::class)->getCount();
+                        @endphp
+                        <a href="{{ route('cart.index') }}" class="relative text-gray-300 hover:text-[#ff2a42] transition-colors group">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            @if($cartCount > 0)
+                                <span class="absolute -top-2 -right-2 bg-[#ff2a42] text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full shadow-[0_0_10px_rgba(255,42,66,0.8)] group-hover:scale-110 transition-transform">
+                                    {{ $cartCount }}
+                                </span>
                             @endif
-                        @else
-                            <div class="flex items-center gap-4 border-l border-white/10 pl-8 ml-4">
-                                <a href="{{ route('login') }}" class="text-sm font-bold text-gray-400 hover:text-white uppercase tracking-widest transition-colors">Inloggen</a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="bg-[#ff2a42] hover:bg-[#d91c30] text-white px-6 py-2.5 rounded-lg font-bold uppercase tracking-widest text-xs transition-all shadow-[0_0_20px_rgba(255,42,66,0.4)] hover:shadow-[0_0_30px_rgba(255,42,66,0.6)] hover:-translate-y-0.5">Registreer</a>
+                        </a>
+
+                        @if (Route::has('login'))
+                            @auth
+                                @if(auth()->user()->role->value === 'admin')
+                                    <a href="{{ route('admin.dashboard') }}" class="px-5 py-2.5 rounded-lg border border-[#ff2a42] text-[#ff2a42] font-bold text-xs uppercase tracking-widest hover:bg-[#ff2a42] hover:text-white transition-all shadow-[0_0_15px_rgba(255,42,66,0.2)]">Admin</a>
+                                @else
+                                    <a href="{{ route('dashboard') }}" class="text-sm font-bold text-gray-300 hover:text-white uppercase tracking-widest transition-colors">Profiel</a>
                                 @endif
-                            </div>
-                        @endauth
-                    @endif
+                            @else
+                                <a href="{{ route('login') }}" class="text-sm font-bold text-gray-400 hover:text-white uppercase tracking-widest transition-colors">Inloggen</a>
+                            @endauth
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
