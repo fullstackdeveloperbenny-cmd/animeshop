@@ -104,9 +104,10 @@
                             </div>
                         </div>
 
-                        <button disabled class="w-full bg-[#ff2a42]/50 text-white font-black py-5 px-8 rounded-xl transition-all uppercase tracking-[0.2em] flex items-center justify-center gap-4 cursor-not-allowed mb-4">
-                            Afrekenen (Fase 8)
-                        </button>
+                        <a href="{{ route('checkout.index') }}" class="w-full bg-[#ff2a42] hover:bg-[#d91c30] text-white font-black py-5 px-8 rounded-xl transition-all uppercase tracking-[0.2em] flex items-center justify-center gap-4 shadow-[0_0_20px_rgba(255,42,66,0.3)] hover:shadow-[0_0_30px_rgba(255,42,66,0.5)] group hover:-translate-y-1 mb-4">
+                            Veilig Afrekenen
+                            <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
                         
                         <a href="{{ route('shop.index') }}" class="w-full bg-transparent border border-white/10 hover:border-white/30 text-gray-400 hover:text-white font-bold py-4 px-8 rounded-xl transition-all uppercase tracking-widest flex items-center justify-center text-sm">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
