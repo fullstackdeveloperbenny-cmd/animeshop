@@ -13,6 +13,12 @@ Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->nam
 Route::post('/cart/add/{product}', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/update/{itemKey}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{itemKey}', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
+
+// Checkout Routes
+Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/process', [\App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout.process');
+Route::get('/checkout/success/{order}', [\App\Http\Controllers\CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/cancel/{order}', [\App\Http\Controllers\CheckoutController::class, 'cancel'])->name('checkout.cancel');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
