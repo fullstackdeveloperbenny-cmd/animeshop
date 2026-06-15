@@ -7,6 +7,7 @@ Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('s
 Route::get('/product/{product:slug}', [\App\Http\Controllers\ShopController::class, 'show'])->name('shop.show');
 Route::get('/over-ons', [\App\Http\Controllers\PageController::class, 'about'])->name('pages.about');
 Route::get('/contact', [\App\Http\Controllers\PageController::class, 'contact'])->name('pages.contact');
+Route::post('/contact', [\App\Http\Controllers\PageController::class, 'sendContactMessage'])->name('pages.contact.send');
 
 // Winkelwagen Routes
 Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
