@@ -24,7 +24,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
             
             <!-- Linker Kolom: Afbeeldingen -->
-            <div class="lg:col-span-7 space-y-6">
+            <div class="lg:col-span-5 space-y-6">
                 <!-- Hoofdfoto -->
                 <div class="aspect-[4/5] bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden relative group shadow-2xl">
                     @if($primaryImage)
@@ -61,7 +61,7 @@
             </div>
 
             <!-- Rechter Kolom: Product Info -->
-            <div class="lg:col-span-5 flex flex-col">
+            <div class="lg:col-span-7 flex flex-col lg:pl-10">
                 <div class="mb-10">
                     <p class="text-[#ff2a42] text-xs font-black uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-[#ff2a42] shadow-[0_0_10px_rgba(255,42,66,0.8)]"></span>
@@ -89,7 +89,7 @@
                                 Selecteer {{ $product->variants->first()->type ?? 'variant' }}
                             </label>
                             <div class="relative">
-                                <select id="variant" name="variant_id" class="w-full pl-6 pr-12 py-5 bg-black/50 bg-none border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-bold text-lg appearance-none cursor-pointer transition-colors hover:bg-black/70">
+                                <select id="variant" name="variant_id" required class="w-full pl-6 pr-12 py-5 bg-black/50 bg-none border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-bold text-lg appearance-none cursor-pointer transition-colors hover:bg-black/70">
                                     <option value="">Kies een optie...</option>
                                     @foreach($product->variants as $variant)
                                         <option value="{{ $variant->id }}" data-price="{{ $product->price + $variant->price_modifier }}" {{ $variant->stock == 0 ? 'disabled' : '' }}>
