@@ -71,6 +71,9 @@
                                 @endif
                             @else
                                 <a href="{{ route('login') }}" class="text-sm font-bold text-gray-400 hover:text-white uppercase tracking-widest transition-colors">Inloggen</a>
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}" class="text-sm font-bold text-gray-400 hover:text-[#ff2a42] uppercase tracking-widest transition-colors">Registreren</a>
+                                @endif
                             @endauth
                         @endif
                     </div>

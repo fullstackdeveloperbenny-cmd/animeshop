@@ -41,6 +41,18 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     Producten
                 </a>
+                <a href="{{ route('admin.orders.index') }}" class="flex items-center justify-between px-4 py-3 rounded-xl {{ request()->routeIs('admin.orders.*') ? 'bg-white/10 text-white font-bold' : 'text-gray-400 hover:bg-white/5 hover:text-white' }} transition-colors">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                        Bestellingen
+                    </div>
+                    @php
+                        $newOrdersCount = \App\Models\Order::where('status', 'paid')->count();
+                    @endphp
+                    @if($newOrdersCount > 0)
+                        <span class="bg-[#E8192C] text-white text-xs font-black px-2 py-0.5 rounded-full">{{ $newOrdersCount }}</span>
+                    @endif
+                </a>
             </nav>
         </aside>
     </div>
