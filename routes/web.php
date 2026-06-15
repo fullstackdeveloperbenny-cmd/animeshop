@@ -33,9 +33,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class)->except(['show']);
