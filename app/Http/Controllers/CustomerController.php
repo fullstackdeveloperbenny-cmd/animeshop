@@ -12,8 +12,10 @@ class CustomerController extends Controller
     {
         $user = Auth::user();
         
-        // Haal de bestellingen van deze gebruiker op, nieuwste eerst
+        // Haal de bestellingen van deze gebruiker op, nieuwste eerst. 
+        // We verbergen 'pending' (verlaten winkelwagens) voor de klant.
         $orders = Order::where('user_id', $user->id)
+            ->where('status', '!=', 'pending')
             ->orderBy('created_at', 'desc')
             ->get();
             

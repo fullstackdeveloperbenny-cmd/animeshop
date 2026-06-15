@@ -10,8 +10,12 @@ class OrderController extends Controller
 {
     public function index()
     {
-        // Haal alle orders op, nieuwste bovenaan
-        $orders = Order::orderBy('created_at', 'desc')->paginate(15);
+        // Haal alle bestellingen op (behalve de afgebroken 'pending' winkelwagens), nieuwste bovenaan
+        $orders = Order::with('user')
+            ->where('status', '!=', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+            
         return view('admin.orders.index', compact('orders'));
     }
 
