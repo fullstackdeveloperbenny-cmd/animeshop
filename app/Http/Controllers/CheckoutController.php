@@ -120,6 +120,9 @@ class CheckoutController extends Controller
             $order->update(['status' => 'paid']);
             // Leeg de winkelwagen
             $this->cartService->clear();
+
+            // Verstuur de bevestigingsmail naar de klant
+            \Illuminate\Support\Facades\Mail::to($order->email)->send(new \App\Mail\OrderPaidMail($order));
         }
 
         return view('shop.checkout-success', compact('order'));

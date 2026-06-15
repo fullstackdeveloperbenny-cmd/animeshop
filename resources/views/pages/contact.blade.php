@@ -51,24 +51,30 @@
             <div class="bg-black border border-white/10 p-10 rounded-3xl shadow-2xl relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-br from-[#ff2a42]/5 to-transparent pointer-events-none"></div>
                 
-                <form action="#" method="POST" class="relative z-10 space-y-6">
+                @if(session('success'))
+                    <div class="mb-6 p-4 rounded-xl bg-green-500/10 border border-green-500/50 text-green-400 font-bold text-sm text-center relative z-10">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                
+                <form action="{{ route('pages.contact.send') }}" method="POST" class="relative z-10 space-y-6">
                     @csrf
                     <div>
                         <label for="name" class="block text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-2">Jouw Naam</label>
-                        <input type="text" id="name" name="name" placeholder="Senpai" class="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-medium transition-colors">
+                        <input type="text" id="name" name="name" placeholder="Senpai" required class="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-medium transition-colors">
                     </div>
                     
                     <div>
                         <label for="email" class="block text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-2">Jouw Email</label>
-                        <input type="email" id="email" name="email" placeholder="senpai@example.com" class="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-medium transition-colors">
+                        <input type="email" id="email" name="email" placeholder="senpai@example.com" required class="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-medium transition-colors">
                     </div>
                     
                     <div>
                         <label for="message" class="block text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-2">Je Bericht</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Typ hier je bericht..." class="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-medium transition-colors resize-none"></textarea>
+                        <textarea id="message" name="message" rows="5" placeholder="Typ hier je bericht..." required class="w-full px-5 py-4 bg-[#0a0a0a] border border-white/10 text-white rounded-xl focus:outline-none focus:border-[#ff2a42] focus:ring-1 focus:ring-[#ff2a42] font-medium transition-colors resize-none"></textarea>
                     </div>
 
-                    <button type="button" onclick="alert('Dit formulier wordt werkend gemaakt in de Afwerking fase (Fase 11)!')" class="w-full bg-[#ff2a42] hover:bg-[#d91c30] text-white font-black py-5 rounded-xl transition-all uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(255,42,66,0.3)] hover:shadow-[0_0_30px_rgba(255,42,66,0.5)] hover:-translate-y-1">
+                    <button type="submit" class="w-full bg-[#ff2a42] hover:bg-[#d91c30] text-white font-black py-5 rounded-xl transition-all uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(255,42,66,0.3)] hover:shadow-[0_0_30px_rgba(255,42,66,0.5)] hover:-translate-y-1">
                         Verstuur Bericht
                     </button>
                 </form>
