@@ -22,6 +22,7 @@ class UpdateProductRequest extends FormRequest
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             
+            'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'primary_image_index' => 'nullable|integer',
             
