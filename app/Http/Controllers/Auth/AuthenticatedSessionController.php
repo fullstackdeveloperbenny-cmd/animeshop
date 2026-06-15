@@ -33,8 +33,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        // Gewone klanten gaan naar het standaard (witte) dashboard
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Gewone klanten gaan naar de winkelpagina (Klantportaal)
+        return redirect()->intended(route('shop.index', absolute: false));
     }
 
     /**
