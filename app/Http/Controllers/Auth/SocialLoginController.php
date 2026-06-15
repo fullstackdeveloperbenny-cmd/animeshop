@@ -37,7 +37,7 @@ class SocialLoginController extends Controller
 
             Auth::login($user);
 
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('shop.index', absolute: false));
         } catch (Exception $e) {
             return redirect()->route('login')->withErrors([
                 'email' => 'Er ging iets mis tijdens het inloggen via ' . ucfirst($provider) . '. Probeer het nog eens.'

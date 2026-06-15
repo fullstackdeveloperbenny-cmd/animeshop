@@ -67,7 +67,7 @@
                                 @if(auth()->user()->role->value === 'admin')
                                     <a href="{{ route('admin.dashboard') }}" class="px-5 py-2.5 rounded-lg border border-[#ff2a42] text-[#ff2a42] font-bold text-xs uppercase tracking-widest hover:bg-[#ff2a42] hover:text-white transition-all shadow-[0_0_15px_rgba(255,42,66,0.2)]">Admin</a>
                                 @else
-                                    <a href="{{ route('dashboard') }}" class="text-sm font-bold text-gray-300 hover:text-white uppercase tracking-widest transition-colors">Profiel</a>
+                                    <a href="{{ route('customer.profile') }}" class="text-sm font-bold text-gray-300 hover:text-white uppercase tracking-widest transition-colors">Mijn Profiel</a>
                                 @endif
                             @else
                                 <a href="{{ route('login') }}" class="text-sm font-bold text-gray-400 hover:text-white uppercase tracking-widest transition-colors">Inloggen</a>

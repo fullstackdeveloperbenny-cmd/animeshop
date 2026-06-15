@@ -24,6 +24,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/mijn-profiel', [\App\Http\Controllers\CustomerController::class, 'profile'])->name('customer.profile');
+    Route::get('/mijn-bestellingen/{order}', [\App\Http\Controllers\CustomerController::class, 'order'])->name('customer.order');
+    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
