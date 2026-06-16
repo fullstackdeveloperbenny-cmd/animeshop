@@ -3,34 +3,52 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [\App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
-Route::get('/product/{product:slug}', [\App\Http\Controllers\ShopController::class, 'show'])->name('shop.show');
-Route::get('/over-ons', [\App\Http\Controllers\PageController::class, 'about'])->name('pages.about');
-Route::get('/contact', [\App\Http\Controllers\PageController::class, 'contact'])->name('pages.contact');
-Route::post('/contact', [\App\Http\Controllers\PageController::class, 'sendContactMessage'])->name('pages.contact.send');
+// Shop Routes
+Route::controller(\App\Http\Controllers\ShopController::class)->name('shop.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/product/{product:slug}', 'show')->name('show');
+});
+
+// Pagina Routes
+Route::controller(\App\Http\Controllers\PageController::class)->name('pages.')->group(function () {
+    Route::get('/over-ons', 'about')->name('about');
+    Route::get('/contact', 'contact')->name('contact');
+    Route::post('/contact', 'sendContactMessage')->name('contact.send');
+});
 
 // Winkelwagen Routes
-Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{product}', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/update/{itemKey}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{itemKey}', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
+Route::prefix('cart')->name('cart.')->controller(\App\Http\Controllers\CartController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/add/{product}', 'add')->name('add');
+    Route::patch('/update/{itemKey}', 'update')->name('update');
+    Route::delete('/remove/{itemKey}', 'remove')->name('remove');
+});
 
 // Checkout Routes
-Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/process', [\App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout.process');
-Route::get('/checkout/success/{order}', [\App\Http\Controllers\CheckoutController::class, 'success'])->name('checkout.success');
-Route::get('/checkout/cancel/{order}', [\App\Http\Controllers\CheckoutController::class, 'cancel'])->name('checkout.cancel');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('checkout')->name('checkout.')->controller(\App\Http\Controllers\CheckoutController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/process', 'process')->name('process');
+    Route::get('/success/{order}', 'success')->name('success');
+    Route::get('/cancel/{order}', 'cancel')->name('cancel');
+});
+
+// Default Dashboard
+Route::view('/dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/mijn-profiel', [\App\Http\Controllers\CustomerController::class, 'profile'])->name('customer.profile');
-    Route::get('/mijn-bestellingen/{order}', [\App\Http\Controllers\CustomerController::class, 'order'])->name('customer.order');
     
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Klanten Routes
+    Route::controller(\App\Http\Controllers\CustomerController::class)->name('customer.')->group(function () {
+        Route::get('/mijn-profiel', 'profile')->name('profile');
+        Route::get('/mijn-bestellingen/{order}', 'order')->name('order');
+    });
+
+    // Profile (Breeze) Routes
+    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::patch('/', 'update')->name('update');
+        Route::delete('/', 'destroy')->name('destroy');
+    });
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

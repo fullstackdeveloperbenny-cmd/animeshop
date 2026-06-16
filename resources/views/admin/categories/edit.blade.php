@@ -1,7 +1,6 @@
 <x-admin-layout>
-    <x-slot name="header">
-        Categorie Bewerken: {{ $category->name }}
-    </x-slot>
+    <x-slot name="title">Categorie Bewerken</x-slot>
+    <x-slot name="header">Categorie Bewerken: {{ $category->name }}</x-slot>
 
     <div class="max-w-3xl bg-white p-8 rounded-lg shadow border border-gray-200">
         <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
