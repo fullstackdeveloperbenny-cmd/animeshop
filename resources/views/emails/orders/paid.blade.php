@@ -25,9 +25,7 @@ Je ordernummer is **{{ $order->order_number }}**.
 Als er onverhoopt iets is misgegaan met je betaling of je hebt vragen voor Stripe, dan is hier je unieke transactie-token:
 **Stripe Sessie ID:** `{{ $order->stripe_session_id }}`
 
-<x-mail::button :url="route('shop.index')">
-Verder Winkelen
-</x-mail::button>
+
 
 Met vriendelijke groet,<br>
 Het team van {{ config('app.name') }}
