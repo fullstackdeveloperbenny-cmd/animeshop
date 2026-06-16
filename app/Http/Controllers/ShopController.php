@@ -22,15 +22,24 @@ class ShopController extends Controller
         if ($request->has('category')) {
             $category = Category::where('slug', $request->category)->first();
             if ($category) {
-                // Filter de producten op de id van deze categorie
-                $query->where('category_id', $category->id);
+                // Haal de ID van deze categorie op, plus de ID's van alle onderliggende (sub)categorieën
+                $categoryIds = $category->children()->pluck('id')->push($category->id);
+                
+                // Filter de producten zodat ze in deze categorie OF in een van de subcategorieën vallen
+                $query->whereIn('category_id', $categoryIds);
             }
+        }
+
+        // Als er gefilterd wordt op zoekterm
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
         }
 
         // We zetten 'featured' producten bovenaan, en daarna sorteren we op de nieuwste (latest)
         $products = $query->orderByDesc('is_featured')
                           ->latest()
-                          ->paginate(12);
+                          ->paginate(12)
+                          ->withQueryString();
         
         // Haal ook de categorieën op voor in de sidebar navigatie
         // We laden de 'children' alvast in voor subcategorieën (mochten we die in de UI willen tonen)

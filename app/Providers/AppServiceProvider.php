@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\View::composer('components.admin-layout', function ($view) {
+            $newOrdersCount = \App\Models\Order::where('status', 'paid')->count();
+            $view->with('newOrdersCount', $newOrdersCount);
+        });
     }
 }

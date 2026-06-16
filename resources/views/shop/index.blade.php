@@ -20,6 +20,19 @@
             <!-- Sidebar: Categories (Glassmorphism) -->
             <aside class="w-full lg:w-72 flex-shrink-0">
                 <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 sticky top-28 shadow-2xl">
+                    <!-- Search Bar -->
+                    <form action="{{ route('shop.index') }}" method="GET" class="mb-8">
+                        @if(request()->has('category'))
+                            <input type="hidden" name="category" value="{{ request('category') }}">
+                        @endif
+                        <div class="relative">
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Zoek naar loot..." class="w-full bg-[#0A0A0A]/50 backdrop-blur-md border border-white/10 rounded-xl pl-4 pr-10 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#ff2a42]/50 focus:ring-1 focus:ring-[#ff2a42]/50 transition-colors font-medium">
+                            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#ff2a42] transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </button>
+                        </div>
+                    </form>
+
                     <h2 class="text-sm font-black uppercase tracking-widest text-gray-400 mb-6 flex items-center gap-3">
                         <span class="w-2 h-2 rounded-full bg-[#ff2a42] shadow-[0_0_10px_rgba(255,42,66,0.8)]"></span>
                         Categorieën

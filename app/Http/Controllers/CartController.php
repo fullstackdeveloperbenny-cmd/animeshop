@@ -20,12 +20,9 @@ class CartController extends Controller
         return view('shop.cart', compact('cartItems', 'total'));
     }
 
-    public function add(Request $request, Product $product)
+    public function add(\App\Http\Requests\Shop\CartAddRequest $request, Product $product)
     {
-        $validated = $request->validate([
-            'variant_id' => 'nullable|exists:variants,id',
-            'quantity' => 'required|integer|min:1|max:100',
-        ]);
+        $validated = $request->validated();
 
         $this->cartService->add($product, $validated['variant_id'] ?? null, $validated['quantity']);
 
@@ -33,11 +30,9 @@ class CartController extends Controller
                          ->with('success', 'Product toegevoegd aan je winkelwagen!');
     }
 
-    public function update(Request $request, string $itemKey)
+    public function update(\App\Http\Requests\Shop\CartUpdateRequest $request, string $itemKey)
     {
-        $validated = $request->validate([
-            'quantity' => 'required|integer|min:0|max:100',
-        ]);
+        $validated = $request->validated();
 
         $this->cartService->update($itemKey, $validated['quantity']);
 

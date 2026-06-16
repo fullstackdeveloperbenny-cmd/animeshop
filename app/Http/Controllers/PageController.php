@@ -16,13 +16,9 @@ class PageController extends Controller
         return view('pages.contact');
     }
 
-    public function sendContactMessage(Request $request)
+    public function sendContactMessage(\App\Http\Requests\Shop\ContactMessageRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'message' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
         \Illuminate\Support\Facades\Mail::to('admin@animashop.test')->send(
             new \App\Mail\ContactMessageMail($validated['name'], $validated['email'], $validated['message'])
