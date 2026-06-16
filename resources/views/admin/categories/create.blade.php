@@ -1,7 +1,6 @@
 <x-admin-layout>
-    <x-slot name="header">
-        Nieuwe Categorie Aanmaken
-    </x-slot>
+    <x-slot name="title">Nieuwe Categorie</x-slot>
+    <x-slot name="header">Categorie Aanmaken</x-slot>
 
     <div class="max-w-3xl bg-white p-8 rounded-lg shadow border border-gray-200">
         <form action="{{ route('admin.categories.store') }}" method="POST">

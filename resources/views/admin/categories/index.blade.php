@@ -1,7 +1,6 @@
 <x-admin-layout>
-    <x-slot name="header">
-        Categorieën Beheer
-    </x-slot>
+    <x-slot name="title">Categorieën</x-slot>
+    <x-slot name="header">Categorieën Beheer</x-slot>
 
     <div class="mb-6 flex justify-between items-center">
         <h2 class="text-2xl font-bold text-[#0A0A0A]">Alle Categorieën</h2>

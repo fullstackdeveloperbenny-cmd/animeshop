@@ -1,7 +1,6 @@
 <x-admin-layout>
-    <x-slot name="header">
-        Overzicht
-    </x-slot>
+    <x-slot name="title">Dashboard</x-slot>
+    <x-slot name="header">Overzicht</x-slot>
 
     <!-- Statistieken Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
