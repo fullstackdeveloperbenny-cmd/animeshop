@@ -45,14 +45,5 @@
         </div>
     </form>
 
-    <!-- Social Login sectie -->
-    <div class="mt-8 border-t border-gray-200 pt-6">
-        <p class="text-xs text-center text-gray-500 font-bold uppercase tracking-widest mb-4">Of log in met</p>
-        
-        <div class="flex flex-col space-y-3">
-            <a href="{{ route('social.redirect', 'github') }}" class="w-full flex justify-center items-center px-4 py-3 bg-[#0A0A0A] border border-transparent text-sm font-black uppercase tracking-wider text-white hover:bg-gray-800 transition">
-                Log in met GitHub
-            </a>
-        </div>
-    </div>
+
 </x-guest-layout>

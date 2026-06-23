@@ -53,17 +53,17 @@
 
                     <div class="mb-6 relative z-10">
                         <x-input-label for="address" value="Straat en Huisnummer" class="text-gray-400 uppercase tracking-widest text-xs font-black mb-2" />
-                        <x-text-input id="address" name="address" type="text" class="w-full bg-black/50 border-white/10 focus:border-[#ff2a42] text-white" value="{{ old('address') }}" required />
+                        <x-text-input id="address" name="address" type="text" class="w-full bg-black/50 border-white/10 focus:border-[#ff2a42] text-white" value="{{ old('address', auth()->user()->address ?? '') }}" required />
                     </div>
 
                     <div class="grid grid-cols-2 gap-6 relative z-10">
                         <div>
                             <x-input-label for="zipcode" value="Postcode" class="text-gray-400 uppercase tracking-widest text-xs font-black mb-2" />
-                            <x-text-input id="zipcode" name="zipcode" type="text" class="w-full bg-black/50 border-white/10 focus:border-[#ff2a42] text-white" value="{{ old('zipcode') }}" required />
+                            <x-text-input id="zipcode" name="zipcode" type="text" class="w-full bg-black/50 border-white/10 focus:border-[#ff2a42] text-white" value="{{ old('zipcode', auth()->user()->zipcode ?? '') }}" required />
                         </div>
                         <div>
                             <x-input-label for="city" value="Woonplaats" class="text-gray-400 uppercase tracking-widest text-xs font-black mb-2" />
-                            <x-text-input id="city" name="city" type="text" class="w-full bg-black/50 border-white/10 focus:border-[#ff2a42] text-white" value="{{ old('city') }}" required />
+                            <x-text-input id="city" name="city" type="text" class="w-full bg-black/50 border-white/10 focus:border-[#ff2a42] text-white" value="{{ old('city', auth()->user()->city ?? '') }}" required />
                         </div>
                     </div>
                 </div>

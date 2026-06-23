@@ -19,11 +19,11 @@ class ProductSeeder extends Seeder
 
         $productsData = [
             // Manga (5)
-            ['cat' => $manga, 'name' => 'Naruto Vol. 1', 'price' => 9.99, 'badge' => 'NIEUW', 'desc' => 'De allereerste manga van Naruto!', 'variants' => ['Taal' => ['NL', 'EN']]],
-            ['cat' => $manga, 'name' => 'One Piece Vol. 100', 'price' => 9.99, 'badge' => null, 'desc' => 'De legendarische 100ste volume van One Piece!', 'variants' => ['Taal' => ['NL', 'EN', 'FR']]],
-            ['cat' => $manga, 'name' => 'Attack on Titan Vol. 34', 'price' => 10.99, 'badge' => 'SALE', 'desc' => 'Het epische einde van AOT.', 'variants' => ['Taal' => ['NL', 'EN']]],
-            ['cat' => $manga, 'name' => 'Demon Slayer Vol. 1', 'price' => 8.99, 'badge' => null, 'desc' => 'Het begin van Tanjiro\'s reis.', 'variants' => ['Taal' => ['EN']]],
-            ['cat' => $manga, 'name' => 'Jujutsu Kaisen Vol. 0', 'price' => 9.99, 'badge' => 'POPULAIR', 'desc' => 'De prequel van de hitserie.', 'variants' => ['Taal' => ['NL', 'EN']]],
+            ['cat' => $manga, 'name' => 'Naruto Vol. 1', 'price' => 9.99, 'badge' => 'NIEUW', 'desc' => 'De allereerste manga van Naruto!', 'variants' => ['Taal' => ['NL', 'EN', 'JP', 'FR', 'DE']]],
+            ['cat' => $manga, 'name' => 'One Piece Vol. 100', 'price' => 9.99, 'badge' => null, 'desc' => 'De legendarische 100ste volume van One Piece!', 'variants' => ['Taal' => ['NL', 'EN', 'FR', 'JP', 'ES']]],
+            ['cat' => $manga, 'name' => 'Attack on Titan Vol. 34', 'price' => 10.99, 'badge' => 'SALE', 'desc' => 'Het epische einde van AOT.', 'variants' => ['Taal' => ['NL', 'EN', 'JP']]],
+            ['cat' => $manga, 'name' => 'Demon Slayer Vol. 1', 'price' => 8.99, 'badge' => null, 'desc' => 'Het begin van Tanjiro\'s reis.', 'variants' => ['Taal' => ['EN', 'JP', 'FR']]],
+            ['cat' => $manga, 'name' => 'Jujutsu Kaisen Vol. 0', 'price' => 9.99, 'badge' => 'POPULAIR', 'desc' => 'De prequel van de hitserie.', 'variants' => ['Taal' => ['NL', 'EN', 'JP', 'IT']]],
             
             // Kleding - T-shirts (3)
             ['cat' => $tshirts, 'name' => 'Goku Super Saiyan T-shirt', 'price' => 24.99, 'badge' => null, 'desc' => 'Officieel Dragon Ball Z T-shirt.', 'variants' => ['Maat' => ['S', 'M', 'L', 'XL']]],

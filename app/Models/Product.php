@@ -42,4 +42,12 @@ class Product extends Model
     {
         return $this->hasMany(Variant::class);
     }
+
+    /**
+     * Scope: Filter query om alleen actieve producten op te halen.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 }

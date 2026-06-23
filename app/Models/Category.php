@@ -60,4 +60,26 @@ class Category extends Model
     {
         return $query->where('is_active', true);
     }
+
+    /**
+     * Model Events voor Cascading Soft Deletes.
+     */
+    protected static function booted()
+    {
+        // Als een categorie naar de prullenbak gaat
+        static::deleting(function (Category $category) {
+            // Verwijder (soft delete) ook alle subcategorieën
+            foreach ($category->children as $child) {
+                $child->delete();
+            }
+        });
+
+        // Als een categorie hersteld wordt uit de prullenbak
+        static::restoring(function (Category $category) {
+            // Herstel ook alle subcategorieën
+            foreach ($category->children()->onlyTrashed()->get() as $child) {
+                $child->restore();
+            }
+        });
+    }
 }

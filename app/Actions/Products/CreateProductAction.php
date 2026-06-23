@@ -31,9 +31,11 @@ class CreateProductAction
                 $this->imageService->storeImages($product, $data['images'], $data['primary_image_index'] ?? 0);
             }
 
+            $hasValidVariants = false;
             if (isset($data['variants']) && is_array($data['variants'])) {
                 foreach ($data['variants'] as $variantData) {
                     if (!empty($variantData['value'])) {
+                        $hasValidVariants = true;
                         $product->variants()->create([
                             'type' => $variantData['type'],
                             'value' => $variantData['value'],
@@ -42,6 +44,17 @@ class CreateProductAction
                         ]);
                     }
                 }
+            }
+
+            // Fallback: Als er geen varianten zijn ingevuld, maar wel een base_stock,
+            // maken we automatisch een 'Standaard' variant aan.
+            if (!$hasValidVariants && isset($data['base_stock'])) {
+                $product->variants()->create([
+                    'type' => 'Standaard',
+                    'value' => 'One Size',
+                    'stock' => $data['base_stock'],
+                    'price_modifier' => 0,
+                ]);
             }
 
             return $product;

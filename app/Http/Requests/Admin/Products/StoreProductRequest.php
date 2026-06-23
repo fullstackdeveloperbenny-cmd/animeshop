@@ -21,6 +21,7 @@ class StoreProductRequest extends FormRequest
             'badge' => 'nullable|string|max:50',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
+            'base_stock' => 'nullable|integer|min:0',
             
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',

@@ -5,12 +5,16 @@ namespace App\Services;
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\WebpEncoder;
 
 class ProductImageService
 {
     public function storeImages(Product $product, array $images, ?int $primaryIndex = 0): void
     {
-        $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+        $manager = new ImageManager(new Driver());
 
         foreach ($images as $index => $image) {
             if ($image instanceof UploadedFile) {
@@ -21,10 +25,10 @@ class ProductImageService
                 $img->scaleDown(width: 800, height: 800);
                 
                 // Converteer naar WebP met 80% kwaliteit
-                $encoded = $img->encode(new \Intervention\Image\Encoders\WebpEncoder(80));
+                $encoded = $img->encode(new WebpEncoder(80));
                 
                 // Genereer een unieke bestandsnaam
-                $filename = \Illuminate\Support\Str::uuid() . '.webp';
+                $filename = Str::uuid() . '.webp';
                 $path = 'products/' . $filename;
                 
                 // Sla op de public disk

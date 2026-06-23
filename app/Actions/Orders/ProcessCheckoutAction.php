@@ -11,7 +11,14 @@ use Stripe\Checkout\Session as StripeSession;
 class ProcessCheckoutAction
 {
     /**
-     * Slaat een bestelling op en genereert een Stripe betalingslink
+     * Slaat de bestelling op in de database via een DB::transaction en
+     * genereert een veilige Stripe betalingslink voor de klant.
+     *
+     * @param array $validatedData Gevalideerde klant- en adresgegevens
+     * @param array $cartItems De inhoud van de winkelwagen
+     * @param float $totalPrice Het totaalbedrag van de bestelling
+     * @return string De Stripe Checkout URL waar de klant naartoe geredirect moet worden
+     * @throws \Exception Wanneer Stripe niet bereikbaar is of de configuratie mist
      */
     public function execute(array $validatedData, array $cartItems, float $totalPrice): string
     {
@@ -47,7 +54,7 @@ class ProcessCheckoutAction
         });
 
         // 2. Setup Stripe
-        Stripe::setApiKey(env('STRIPE_SECRET', 'sk_test_fake_secret_for_now'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         $lineItems = [];
         foreach ($cartItems as $item) {

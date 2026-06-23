@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role'])]
+#[Fillable(['name', 'email', 'password', 'role', 'address', 'city', 'zipcode', 'phone_number'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -32,11 +32,5 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Haal de social accounts op die bij deze gebruiker horen.
-     */
-    public function socialAccounts()
-    {
-        return $this->hasMany(SocialAccount::class);
-    }
+
 }

@@ -1,58 +1,63 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Anime Webshop 🎌
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Dit is de eindopdracht voor de cursus Full-Stack Web Development. Het is een volledig functionele, dynamische webshop gespecialiseerd in anime merchandise (Manga's, T-shirts, Hoodies, Nendoroids en Funko Pops).
 
-## About Laravel
+## 🚀 De Technologie Stack & Waarom
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Tijdens de ontwikkeling is er extreem veel aandacht besteed aan **snelheid, veiligheid en schaalbaarheid**. Daarom is er gekozen voor de volgende "TALL" achtige stack:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+*   **Laravel 13 (PHP 8.4):** Gekozen vanwege het robuuste MVC (Model-View-Controller) patroon, ingebouwde veiligheid (CSRF bescherming, SQL injection preventie) en het krachtige Eloquent ORM voor databasebeheer. Deze nieuwste, meest stabiele versie garandeert maximale performance.
+*   **MySQL:** Een betrouwbare, relationele database. Gekozen omdat webshops strikte data-integriteit vereisen (bijv. Foreign Keys tussen Orders, Users en Products).
+*   **Tailwind CSS:** In plaats van zware JavaScript animatie-libraries zoals GSAP te gebruiken, is er bewust gekozen voor **pure Tailwind CSS animaties en keyframes**. Dit zorgt voor prachtige effecten (zoals glow, hover-transities en het draaiende logo) *zonder* dat de website traag wordt door honderden kilobytes aan JavaScript. Performance stond hier op één!
+*   **Alpine.js:** Gebruikt voor de weinige plekken waar wél JavaScript nodig was (zoals het verbergen van succes-meldingen na 2 seconden of het openen van mobiele menu's). Alpine is extreem lichtgewicht vergeleken met React of Vue.
+*   **Stripe:** Geïntegreerd voor veilige betalingen. Stripe zorgt ervoor dat creditcardgegevens nooit onze eigen database raken, wat essentieel is voor de wetgeving (GDPR/PCI compliance).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ Installatie & Opstarten
 
-## Learning Laravel
+Volg deze stappen om het project lokaal te draaien:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1.  Zorg dat je in de projectmap zit (`cd animewebshop`).
+2.  Installeer de PHP packages:
+    ```bash
+    composer install
+    ```
+3.  Installeer de Node packages:
+    ```bash
+    npm install
+    ```
+4.  Kopieer het `.env.example` bestand naar `.env` en vul je database en Stripe gegevens in:
+    ```bash
+    cp .env.example .env
+    ```
+5.  Genereer een app key:
+    ```bash
+    php artisan key:generate
+    ```
+6.  Migreer en seed de database met dummy data:
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+7.  Start de applicatie:
+    ```bash
+    # Terminal 1: Start de vite server (voor CSS/JS compilatie)
+    npm run dev
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    # Terminal 2: Start de Laravel server
+    php artisan serve
+    ```
+8.  Ga naar `http://127.0.0.1:8000` in je browser.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## 🔐 Inloggegevens voor de Jury
 
-## Agentic Development
+Na het runnen van de seeders (`php artisan migrate:fresh --seed`) kun je inloggen met de volgende accounts om de frontend of de backend te testen:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+**Admin Paneel (Backend):**
+*   **E-mail:** admin@anime.shop
+*   **Wachtwoord:** password
 
-```bash
-composer require laravel/boost --dev
+**Test Klant (Frontend winkelwagen en bestellingen):**
+*   **E-mail:** klant@anime.shop
+*   **Wachtwoord:** password
 
-php artisan boost:install
-```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+*Gemaakt met toewijding, focus op detail, en een passie voor code.*

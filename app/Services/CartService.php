@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Product;
 use App\Models\Variant;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 class CartService
 {
@@ -18,33 +19,48 @@ class CartService
         return Session::get($this->sessionKey, []);
     }
 
-    /**
-     * Voeg een product (met evt variant) toe aan de wagen
-     */
     public function add(Product $product, ?int $variantId, int $quantity = 1): void
     {
         $cart = $this->getCart();
         
         // Genereer een unieke sleutel voor dit item in de wagen.
-        // Als het een variant heeft, maken we onderscheid tussen bijv maat S en L van hetzelfde shirt.
         $itemKey = $product->id . ($variantId ? '_' . $variantId : '');
+
+        // Controleer voorraad
+        $variantName = null;
+        $priceModifier = 0;
+
+        if ($variantId) {
+            $variant = Variant::find($variantId);
+            if (!$variant) {
+                throw ValidationException::withMessages(['quantity' => 'Variant niet gevonden.']);
+            }
+
+            $currentCartQty = isset($cart[$itemKey]) ? $cart[$itemKey]['quantity'] : 0;
+            $newTotalQty = $currentCartQty + $quantity;
+
+            if ($newTotalQty > $variant->stock) {
+                $maxToOrder = $variant->stock - $currentCartQty;
+                if ($maxToOrder > 0) {
+                    $msg = "Je kan er nog max {$maxToOrder} toevoegen voor de moment tot de stock weer is aangevuld. Mvg!";
+                } else {
+                    $msg = "Je hebt de maximale voorraad ({$variant->stock} stuks) al in je winkelwagen zitten. Voor de moment kan je er niet meer bestellen tot de stock weer is aangevuld. Mvg!";
+                }
+                
+                throw ValidationException::withMessages([
+                    'quantity' => $msg
+                ]);
+            }
+
+            $priceModifier = $variant->price_modifier;
+            $variantName = $variant->type . ': ' . $variant->value;
+        }
 
         if (array_key_exists($itemKey, $cart)) {
             // Als het al in de wagen zit, verhoog de hoeveelheid
             $cart[$itemKey]['quantity'] += $quantity;
         } else {
             // Voeg nieuw toe
-            $priceModifier = 0;
-            $variantName = null;
-
-            if ($variantId) {
-                $variant = Variant::find($variantId);
-                if ($variant && $variant->product_id === $product->id) {
-                    $priceModifier = $variant->price_modifier;
-                    $variantName = $variant->type . ': ' . $variant->value;
-                }
-            }
-
             $cart[$itemKey] = [
                 'product_id' => $product->id,
                 'name' => $product->name,
@@ -73,6 +89,16 @@ class CartService
             if ($quantity <= 0) {
                 $this->remove($itemKey);
             } else {
+                $variantId = $cart[$itemKey]['variant_id'];
+                if ($variantId) {
+                    $variant = Variant::find($variantId);
+                    if ($variant && $quantity > $variant->stock) {
+                        throw ValidationException::withMessages([
+                            'quantity' => "Je kan er maar max {$variant->stock} bestellen voor de moment tot de stock weer is aangevuld. Mvg!"
+                        ]);
+                    }
+                }
+
                 $cart[$itemKey]['quantity'] = $quantity;
                 Session::put($this->sessionKey, $cart);
             }

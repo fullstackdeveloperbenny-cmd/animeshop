@@ -51,6 +51,16 @@
                                 </div>
 
                                 <div>
+                                    <x-input-label for="base_stock" value="Standaard Voorraad (wordt gebruikt als er géén varianten zijn ingevuld)" />
+                                    @php
+                                        // Als het product een 'Standaard' variant heeft, tonen we de voorraad hier
+                                        $baseVariant = $product->variants->where('type', 'Standaard')->where('value', 'One Size')->first();
+                                        $defaultStock = $baseVariant ? $baseVariant->stock : '';
+                                    @endphp
+                                    <x-text-input id="base_stock" name="base_stock" type="number" class="mt-1 block w-full" :value="old('base_stock', $defaultStock)" />
+                                </div>
+
+                                <div>
                                     <x-input-label for="badge" value="Badge (optioneel)" />
                                     <x-text-input id="badge" name="badge" type="text" class="mt-1 block w-full" :value="old('badge', $product->badge)" />
                                 </div>

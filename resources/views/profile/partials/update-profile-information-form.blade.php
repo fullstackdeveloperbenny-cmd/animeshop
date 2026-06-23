@@ -47,6 +47,31 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="address" :value="__('Adres')" />
+            <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $user->address)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('address')" />
+        </div>
+
+        <div class="flex gap-4">
+            <div class="w-1/3">
+                <x-input-label for="zipcode" :value="__('Postcode')" />
+                <x-text-input id="zipcode" name="zipcode" type="text" class="mt-1 block w-full" :value="old('zipcode', $user->zipcode)" required />
+                <x-input-error class="mt-2" :messages="$errors->get('zipcode')" />
+            </div>
+            <div class="w-2/3">
+                <x-input-label for="city" :value="__('Stad / Gemeente')" />
+                <x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city', $user->city)" required />
+                <x-input-error class="mt-2" :messages="$errors->get('city')" />
+            </div>
+        </div>
+
+        <div>
+            <x-input-label for="phone_number" :value="__('Telefoonnummer (Optioneel)')" />
+            <x-text-input id="phone_number" name="phone_number" type="text" class="mt-1 block w-full" :value="old('phone_number', $user->phone_number)" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone_number')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

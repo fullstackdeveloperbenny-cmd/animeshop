@@ -1,23 +1,35 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 
 // Shop Routes
-Route::controller(\App\Http\Controllers\ShopController::class)->name('shop.')->group(function () {
+Route::controller(ShopController::class)->name('shop.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/product/{product:slug}', 'show')->name('show');
 });
 
 // Pagina Routes
-Route::controller(\App\Http\Controllers\PageController::class)->name('pages.')->group(function () {
+Route::controller(PageController::class)->name('pages.')->group(function () {
     Route::get('/over-ons', 'about')->name('about');
     Route::get('/contact', 'contact')->name('contact');
     Route::post('/contact', 'sendContactMessage')->name('contact.send');
+    Route::get('/algemene-voorwaarden', 'terms')->name('terms');
+    Route::get('/privacybeleid', 'privacy')->name('privacy');
+    Route::get('/retourbeleid', 'returns')->name('returns');
 });
 
 // Winkelwagen Routes
-Route::prefix('cart')->name('cart.')->controller(\App\Http\Controllers\CartController::class)->group(function () {
+Route::prefix('cart')->name('cart.')->controller(CartController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/add/{product}', 'add')->name('add');
     Route::patch('/update/{itemKey}', 'update')->name('update');
@@ -25,7 +37,7 @@ Route::prefix('cart')->name('cart.')->controller(\App\Http\Controllers\CartContr
 });
 
 // Checkout Routes
-Route::prefix('checkout')->name('checkout.')->controller(\App\Http\Controllers\CheckoutController::class)->group(function () {
+Route::prefix('checkout')->name('checkout.')->controller(CheckoutController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/process', 'process')->name('process');
     Route::get('/success/{order}', 'success')->name('success');
@@ -38,7 +50,7 @@ Route::view('/dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('
 Route::middleware('auth')->group(function () {
     
     // Klanten Routes
-    Route::controller(\App\Http\Controllers\CustomerController::class)->name('customer.')->group(function () {
+    Route::controller(CustomerController::class)->name('customer.')->group(function () {
         Route::get('/mijn-profiel', 'profile')->name('profile');
         Route::get('/mijn-bestellingen/{order}', 'order')->name('order');
     });
@@ -52,11 +64,15 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
-    Route::resource('products', App\Http\Controllers\Admin\ProductController::class)->except(['show']);
-    Route::resource('orders', App\Http\Controllers\Admin\OrderController::class)->only(['index', 'show', 'update']);
+    Route::get('categories/trash', [CategoryController::class, 'trash'])->name('categories.trash');
+    Route::post('categories/{category}/restore', [CategoryController::class, 'restore'])->name('categories.restore')->withTrashed();
+    Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::get('products/trash', [ProductController::class, 'trash'])->name('products.trash');
+    Route::post('products/{product}/restore', [ProductController::class, 'restore'])->name('products.restore')->withTrashed();
+    Route::resource('products', ProductController::class)->except(['show']);
+    Route::resource('orders', OrderController::class)->only(['index', 'show', 'update']);
 });
 
 require __DIR__.'/auth.php';
