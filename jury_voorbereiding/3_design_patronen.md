@@ -13,7 +13,7 @@ In plaats van de database acties in de controller uit te voeren, maken we vaak g
 **Jij:** *"Herbruikbaarheid! Stel dat we over een jaar een Mobiele App bouwen met een eigen API Controller. Dan hoeven we de complexe code voor het afrekenen niet te kopiëren. We roepen gewoon vanuit de nieuwe API Controller dezelfde `ProcessCheckoutAction` aan. Don't Repeat Yourself (DRY)."*
 
 ## 3. Services
-Net als Actions, hebben we Services zoals de `SocialAccountService` (voor GitHub login) en de `CartService`.
+Net als Actions, hebben we Services zoals de `ProductImageService` (voor het opslaan van foto's) en de `CartService`.
 **Jury:** *"Wat is het verschil?"*
 **Jij:** *"Een Action doet doorgaans één hele specifieke taak (bijv. CreateProduct). Een Service is breder en bundelt logica rondom een domein. De `CartService` bevat methodes om iets toe te voegen, te verwijderen, én het totaal te berekenen."*
 
@@ -21,3 +21,8 @@ Net als Actions, hebben we Services zoals de `SocialAccountService` (voor GitHub
 Je hebt stukken code zoals de sidebar in `resources/views/components/admin-layout.blade.php` gezet.
 **Jury:** *"Waarom gebruik je Components in plaats van @include?"*
 **Jij:** *"Laravel Components zijn veel krachtiger dan de oude @include methode. Je kunt er gemakkelijk variabelen (zoals `$newOrdersCount`) en classes aan doorgeven. Het houdt mijn HTML extreem DRY."*
+
+## 5. JavaScript Structuur (app.js)
+Je hebt ervoor gezorgd dat er nergens in je Blade-bestanden losse `<script>` tags rondslingeren.
+**Jury:** *"Waarom zet je JavaScript niet gewoon onderaan je HTML pagina's?"*
+**Jij:** *"Voor een schone architectuur hoort JavaScript niet in je View-bestanden (Blade) thuis. Ik heb al mijn custom scripts (zoals de Live Search en het dynamisch updaten van de productprijzen) verzameld in `resources/js/app.js`. Hierdoor compileert Vite alles netjes in één geoptimaliseerd bestand, wat de website veel sneller en veiliger maakt."*

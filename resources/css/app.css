@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Base Fonts */
+body { font-family: 'Outfit', sans-serif; }
+
+/* Custom scrollbar voor dark mode */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #ff2a42; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #d91c30; }
+
+/* Neon text glow */
+.neon-text { text-shadow: 0 0 10px rgba(255,42,66,0.5); }

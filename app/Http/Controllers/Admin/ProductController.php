@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\Products\CreateProductAction;
 use App\Actions\Products\UpdateProductAction;
+use App\Actions\Products\RestoreProductAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\StoreProductRequest;
 use App\Http\Requests\Admin\Products\UpdateProductRequest;
@@ -14,13 +15,13 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->latest()->paginate(10);
+        $products = Product::with(['category', 'variants'])->latest()->paginate(10);
         return view('admin.products.index', compact('products'));
     }
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('name')->get();
         return view('admin.products.create', compact('categories'));
     }
 
@@ -35,7 +36,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('name')->get();
         $product->load(['images', 'variants']);
         return view('admin.products.edit', compact('product', 'categories'));
     }
@@ -55,6 +56,22 @@ class ProductController extends Controller
 
         return redirect()
             ->route('admin.products.index')
-            ->with('success', 'Product succesvol verwijderd.');
+            ->with('success', 'Product succesvol verwijderd (naar prullenbak).');
+    }
+
+    public function trash()
+    {
+        // Enkel producten ophalen die soft-deleted zijn
+        $trashedProducts = Product::onlyTrashed()->with(['category', 'variants'])->latest('deleted_at')->paginate(10);
+        return view('admin.products.trash', compact('trashedProducts'));
+    }
+
+    public function restore(Product $product, RestoreProductAction $action)
+    {
+        $action->handle($product);
+
+        return redirect()
+            ->route('admin.products.trash')
+            ->with('success', 'Product succesvol hersteld.');
     }
 }

@@ -12,7 +12,6 @@
         "php": "^8.3",
         "intervention/image": "^4.1",
         "laravel/framework": "^13.8",
-        "laravel/socialite": "^5.27",
         "laravel/tinker": "^3.0",
         "stripe/stripe-php": "^20.2"
     },

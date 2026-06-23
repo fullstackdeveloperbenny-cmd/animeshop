@@ -41,8 +41,7 @@
                         Digitaal Bereikbaar
                     </h2>
                     <p class="text-gray-300 leading-relaxed font-medium">
-                        Email: <a href="mailto:support@animashop.test" class="text-[#ff2a42] hover:text-white transition-colors">support@animashop.test</a><br>
-                        Discord: <a href="#" class="text-[#ff2a42] hover:text-white transition-colors">AnimaShop Community</a>
+                        Email: <a href="mailto:admin@anime.shop" class="text-[#ff2a42] hover:text-white transition-colors">admin@anime.shop</a>
                     </p>
                 </div>
             </div>

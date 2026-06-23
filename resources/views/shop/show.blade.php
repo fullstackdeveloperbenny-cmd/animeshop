@@ -13,12 +13,24 @@
                     Shop
                 </a>
                 <span class="mx-4 text-gray-700">/</span>
-                <a href="{{ route('shop.index', ['category' => $product->category->slug]) }}" class="hover:text-white transition-colors">{{ $product->category->name }}</a>
+                <a href="{{ route('shop.index', ['category' => $product->category?->slug ?? '']) }}" class="hover:text-white transition-colors">{{ $product->category?->name ?? 'Zonder Categorie' }}</a>
                 <span class="mx-4 text-gray-700">/</span>
                 <span class="text-[#ff2a42] truncate">{{ $product->name }}</span>
             </nav>
         </div>
     </div>
+
+    @if($errors->any())
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+            <div class="bg-red-500/20 border border-red-500/50 text-red-400 px-6 py-4 rounded-xl font-bold">
+                <ul class="list-none">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
@@ -65,7 +77,7 @@
                 <div class="mb-10">
                     <p class="text-[#ff2a42] text-xs font-black uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-[#ff2a42] shadow-[0_0_10px_rgba(255,42,66,0.8)]"></span>
-                        {{ $product->category->name }}
+                        {{ $product->category?->name ?? 'Zonder Categorie' }}
                     </p>
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight">{{ $product->name }}</h1>
                     <p class="text-4xl font-black text-white flex items-start gap-2">
@@ -141,25 +153,4 @@
         </div>
     </div>
 
-    <!-- Script om prijs dynamisch aan te passen op basis van de variant -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const variantSelect = document.getElementById('variant');
-            const displayPrice = document.getElementById('display-price');
-            
-            if (variantSelect && displayPrice) {
-                const basePriceHtml = displayPrice.innerHTML;
-                
-                variantSelect.addEventListener('change', function() {
-                    if (this.value) {
-                        const selectedOption = this.options[this.selectedIndex];
-                        const newPrice = parseFloat(selectedOption.getAttribute('data-price')).toFixed(2).replace('.', ',');
-                        displayPrice.innerHTML = newPrice;
-                    } else {
-                        displayPrice.innerHTML = basePriceHtml;
-                    }
-                });
-            }
-        });
-    </script>
 </x-shop-layout>

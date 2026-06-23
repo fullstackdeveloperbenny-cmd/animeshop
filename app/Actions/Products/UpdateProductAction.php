@@ -32,10 +32,12 @@ class UpdateProductAction
                 $this->imageService->storeImages($product, $data['images'], $data['primary_image_index'] ?? 0);
             }
 
+            $hasValidVariants = false;
             if (isset($data['variants']) && is_array($data['variants'])) {
                 $product->variants()->delete();
                 foreach ($data['variants'] as $variantData) {
                     if (!empty($variantData['value'])) {
+                        $hasValidVariants = true;
                         $product->variants()->create([
                             'type' => $variantData['type'],
                             'value' => $variantData['value'],
@@ -44,6 +46,17 @@ class UpdateProductAction
                         ]);
                     }
                 }
+            }
+
+            // Fallback: Als er geen varianten zijn, maar wel een base_stock
+            if (!$hasValidVariants && isset($data['base_stock'])) {
+                $product->variants()->delete(); // Zeker zijn dat oude varianten weg zijn
+                $product->variants()->create([
+                    'type' => 'Standaard',
+                    'value' => 'One Size',
+                    'stock' => $data['base_stock'],
+                    'price_modifier' => 0,
+                ]);
             }
 
             return $product;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Actions\Categories\CreateCategoryAction;
 use App\Actions\Categories\DeleteCategoryAction;
 use App\Actions\Categories\UpdateCategoryAction;
+use App\Actions\Categories\RestoreCategoryAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
@@ -23,7 +24,7 @@ class CategoryController extends Controller
     public function create()
     {
         Gate::authorize('create', Category::class);
-        $parents = Category::whereNull('parent_id')->get();
+        $parents = Category::all();
         return view('admin.categories.create', compact('parents'));
     }
 
@@ -36,7 +37,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         Gate::authorize('update', $category);
-        $parents = Category::whereNull('parent_id')->where('id', '!=', $category->id)->get();
+        $parents = Category::where('id', '!=', $category->id)->get();
         return view('admin.categories.edit', compact('category', 'parents'));
     }
 
@@ -50,6 +51,20 @@ class CategoryController extends Controller
     {
         Gate::authorize('delete', $category);
         $action->handle($category);
-        return redirect()->route('admin.categories.index')->with('success', 'Categorie succesvol verwijderd.');
+        return redirect()->route('admin.categories.index')->with('success', 'Categorie succesvol verwijderd (naar prullenbak).');
+    }
+
+    public function trash()
+    {
+        Gate::authorize('viewAny', Category::class);
+        $trashedCategories = Category::onlyTrashed()->with('parent')->latest('deleted_at')->paginate(10);
+        return view('admin.categories.trash', compact('trashedCategories'));
+    }
+
+    public function restore(Category $category, RestoreCategoryAction $action)
+    {
+        Gate::authorize('restore', $category);
+        $action->handle($category);
+        return redirect()->route('admin.categories.trash')->with('success', 'Categorie succesvol hersteld.');
     }
 }

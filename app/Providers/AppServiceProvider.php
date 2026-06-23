@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use App\Models\Order;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Illuminate\Support\Facades\View::composer('components.admin-layout', function ($view) {
-            $newOrdersCount = \App\Models\Order::where('status', 'paid')->count();
+        View::composer('components.admin-layout', function ($view) {
+            $newOrdersCount = Order::where('status', 'paid')->count();
             $view->with('newOrdersCount', $newOrdersCount);
         });
     }

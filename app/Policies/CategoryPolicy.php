@@ -39,4 +39,12 @@ class CategoryPolicy
     {
         return $user->role === UserRole::ADMIN;
     }
+
+    /**
+     * Alleen beheerders mogen categorieën herstellen uit de prullenbak.
+     */
+    public function restore(User $user, Category $category): bool
+    {
+        return $user->role === UserRole::ADMIN;
+    }
 }

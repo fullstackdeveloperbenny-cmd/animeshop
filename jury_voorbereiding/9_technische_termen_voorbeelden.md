@@ -56,7 +56,7 @@ Als de jury jouw code downloadt en `php artisan migrate` typt, bouwt Laravel aut
 ### CSRF (Cross-Site Request Forgery) Protectie
 **Wat is het?** Beveiliging tegen kwaadaardige formulieren op andere websites.
 **Voorbeeld in jouw project:**
-Stel, een hacker maakt een link op zijn website: *animashop.test/admin/delete-all*. Als jij daar ingelogd op klikt, is alles weg.
+Stel, een hacker maakt een link op zijn website: *AnimeShop.test/admin/delete-all*. Als jij daar ingelogd op klikt, is alles weg.
 Laravel blokkeert dit. Op AL jouw formulieren (zoals producten toevoegen of de checkout) staat de code `@csrf`. Dit is een geheime stempel. Als het formulier wordt verzonden zonder die exacte, unieke stempel, weigert de backend de aanvraag met een "419 Page Expired" foutmelding.
 
 ### Eager Loading (Het N+1 Query Probleem oplossen)
@@ -75,3 +75,27 @@ Hiermee pakt Laravel eerst alle producten (Query 1), en daarna pakt hij in één
 Tijdens de Checkout slaan we eerst de `Order` op. Daarna in een loopje de 5 `OrderItems`.
 Wat als de server crasht na item 3? Dan heb je een bestelling met ontbrekende producten waarvoor wel is betaald. Fout!
 Door dit in `DB::transaction(function() { ... })` te wikkelen in je `ProcessCheckoutAction`, zegt Laravel: *"Zijn niet álle 6 de queries succesvol? Verwijder dan alles wat je in deze transactie al hebt opgeslagen en doe alsof er niets is gebeurd."*
+
+---
+
+## 3. Object-Georiënteerd Programmeren (OOP) & Design Patterns
+
+### Encapsulation (Inkapseling)
+**Wat is het?** Het afschermen van de 'binnenkant' van een klasse, zodat andere bestanden er niet zomaar in kunnen rommelen. Je bepaalt streng welke deurtjes open staan (`public`) en welke gesloten zijn (`private`).
+**Voorbeeld in jouw project:** 
+Kijk naar jouw `CartService.php`. De manier waarop de winkelwagen in de Laravel-sessie wordt opgeslagen, zit daar veilig weggestopt. Jouw `CartController` weet he-le-maal niet *hoe* de data wordt opgeslagen. De controller roept alleen de publieke methode `$this->cartService->add()` aan. De interne, ingewikkelde logica is "ingekapseld" (verstopt) in de service. Ook gebruik je in je controllers `private CartService $cartService`, wat betekent dat niemand buiten de controller die variabele mag aanraken.
+
+### Singleton Pattern
+**Wat is het?** Een ontwerppatroon dat ervoor zorgt dat er van een bepaalde klasse maar **maximaal één instantie (kopie)** mag bestaan in het hele systeem, ongeacht hoe vaak je hem aanroept.
+**Voorbeeld in jouw project:**
+Laravel doet dit constant onder water! Als jij de `DB` facade gebruikt (`DB::transaction`), of je haalt de ingelogde gebruiker op via `Auth::user()`, dan maakt Laravel niet elke keer een compleet nieuwe database-verbinding of inlogsessie aan (dat zou megatraag zijn). Laravel bewaart één centrale 'Singleton' in zijn geheugen en deelt die uit aan iedereen die erom vraagt.
+
+### Dependency Injection (DI)
+**Wat is het?** In plaats van dat een klasse zélf zijn gereedschap moet bouwen (bijv. met `new Gereedschap()`), geef je (injecteer je) het kant-en-klaar aan hem via de constructor. Dit maakt code testbaar en schoon.
+**Voorbeeld in jouw project:**
+Jouw `CheckoutController.php`! Bovenaan in de constructor staat: `public function __construct(private CartService $cartService)`. De controller zegt hier: *"Ik ga niet zelf uitzoeken hoe een CartService werkt, ik eis gewoon dat Laravel er eentje aan mij geeft als ik word opgestart."* 
+
+### DRY Principe (Don't Repeat Yourself)
+**Wat is het?** Het principe dat je nooit twee keer exact dezelfde code (of logica) mag schrijven.
+**Voorbeeld in jouw project:**
+Jouw Blade-componenten! In plaats van in elke Admin-pagina de HTML voor de zijbalk en de header opnieuw te typen, heb jij een `<x-admin-layout>` gemaakt. Ook je notificatie-belletje via de `AppServiceProvider` is pure DRY: in plaats van in 10 verschillende controllers de nieuwe bestellingen te tellen, doe je het op 1 centrale plek.

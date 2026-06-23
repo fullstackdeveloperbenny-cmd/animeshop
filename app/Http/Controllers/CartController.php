@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use App\Http\Requests\Shop\CartAddRequest;
+use App\Http\Requests\Shop\CartUpdateRequest;
 
 class CartController extends Controller
 {
@@ -20,7 +22,7 @@ class CartController extends Controller
         return view('shop.cart', compact('cartItems', 'total'));
     }
 
-    public function add(\App\Http\Requests\Shop\CartAddRequest $request, Product $product)
+    public function add(CartAddRequest $request, Product $product)
     {
         $validated = $request->validated();
 
@@ -30,7 +32,7 @@ class CartController extends Controller
                          ->with('success', 'Product toegevoegd aan je winkelwagen!');
     }
 
-    public function update(\App\Http\Requests\Shop\CartUpdateRequest $request, string $itemKey)
+    public function update(CartUpdateRequest $request, string $itemKey)
     {
         $validated = $request->validated();
 
