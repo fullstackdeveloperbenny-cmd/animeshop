@@ -16,8 +16,9 @@ Dit is je ultieme woordenboek. Als de jury vraagt: *"Wat is de officiële term h
 ## 2. Database & Eloquent
 - **Eloquent ORM:** Het systeem van Laravel dat database-tabellen (zoals `products`) omzet in PHP-objecten, zodat je geen rauwe SQL (zoals `SELECT * FROM`) hoeft te typen.
 - **Migration:** Versiebeheer voor je database. Een script dat tabellen en kolommen bouwt.
-- **Seeder:** Een script om de lege database automatisch te vullen met nep-data (dummy data) voor testdoeleinden.
+- **Seeder:** Een script om de lege database automatisch te vullen met nep-data (dummy data) voor testdoeleinden, vaak gegenereerd via een *Factory*.
 - **SoftDeletes:** De "prullenbak" techniek. Items worden niet hard uit de database verwijderd, maar krijgen een onzichtbaar `deleted_at` stempeltje.
+- **Route Model Binding:** Een magisch trucje van Laravel. In plaats van in je controller zelf `Product::find($id)` te moeten typen, typ je simpelweg `public function show(Product $product)`. Laravel kijkt dan naar de URL (bijv `/shop/naruto`), zoekt zélf in de database naar het product 'naruto', en geeft het kant-en-klaar aan je functie. Kan hij het niet vinden? Dan gooit Laravel automatisch een 404 Error.
 - **Mass Assignment:** Het beveiligen van je database tabellen. Gedaan met **`$fillable`** (Whitelist - alleen déze kolommen mogen aangepast worden) of `$guarded` (Blacklist).
 - **Eager Loading (`with()`):** Het vooraf inladen van gerelateerde tabellen (zoals de categorie van een product) in één ademteug.
 - **N+1 Probleem:** Een enorme performance-killer (traagheid) die ontstaat als je géén Eager Loading gebruikt en de database in een `foreach` loop 100 keer apart wordt aangesproken.
@@ -29,7 +30,8 @@ Dit is je ultieme woordenboek. Als de jury vraagt: *"Wat is de officiële term h
 - **CSRF (Cross-Site Request Forgery):** Een hack waarbij een bezoeker via een valse website een formulier op jouw site triggert. Voorkomen door de geheime Laravel `@csrf` token.
 - **XSS (Cross-Site Scripting):** Een hack waarbij een bezoeker kwaadaardig JavaScript invult (bijv. in een zoekbalk). Voorkomen door Blade's automatische HTML-escaping (`{{ }}` veranderd `<` in onschuldige tekst).
 - **SQL Injection:** Een hack waarbij database-commando's in zoekbalken worden getypt. Opgelost omdat Eloquent **PDO Parameter Binding** gebruikt en de input puur als tekst ziet.
-- **Middleware:** De 'Uitsmijter' bij de ingang van je Route. Hij weigert ongeautoriseerde gebruikers lang voordat de Controller wordt bereikt.
+- **Middleware:** De 'Uitsmijter' bij de ingang van je Route. Hij weigert ongeautoriseerde gebruikers lang voordat de Controller wordt bereikt (bijv. "Alleen admins mogen deze map in").
+- **Gate / Policy:** Een hele specifieke 'Binnen-Bewaker'. Waar Middleware de hele route afschermt, controleert een Gate of Policy of jij een *specifieke actie* mag doen op een *specifiek item* (bijv. "Mag deze admin deze ene categorie wel bewerken?"). Je gebruikt in je controllers dan de code `Gate::authorize(...)`.
 
 ## 4. PHP Core Technologie
 - **Namespace Import (`use` bovenaan):** Vertelt PHP in welk mapje hij een bepaald bestand moet zoeken (bijv. `use App\Models\Product`).
