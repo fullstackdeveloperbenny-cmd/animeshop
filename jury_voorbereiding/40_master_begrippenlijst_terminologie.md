@@ -20,6 +20,8 @@ Dit is je ultieme woordenboek. Als de jury vraagt: *"Wat is de officiële term h
 - **SoftDeletes:** De "prullenbak" techniek. Items worden niet hard uit de database verwijderd, maar krijgen een onzichtbaar `deleted_at` stempeltje.
 - **Route Model Binding:** Een magisch trucje van Laravel. In plaats van in je controller zelf `Product::find($id)` te moeten typen, typ je simpelweg `public function show(Product $product)`. Laravel kijkt dan naar de URL (bijv `/shop/naruto`), zoekt zélf in de database naar het product 'naruto', en geeft het kant-en-klaar aan je functie. Kan hij het niet vinden? Dan gooit Laravel automatisch een 404 Error.
 - **Mass Assignment:** Het beveiligen van je database tabellen. Gedaan met **`$fillable`** (Whitelist - alleen déze kolommen mogen aangepast worden) of `$guarded` (Blacklist).
+- **Type Casting (`$casts`):** Het automatisch omzetten van ruwe database-data naar de juiste PHP datatypes. Bijv: MySQL stuurt een `0` of `1` voor een checkbox, maar door `'is_active' => 'boolean'` te gebruiken, maakt Laravel er automatisch een echte PHP `true` of `false` van.
+- **Relaties (HasMany / BelongsTo):** Hoe tabellen aan elkaar plakken. `HasMany` = 1 product *heeft veel* foto's. `BelongsTo` = 1 product *behoort tot* 1 specifieke categorie (het is het "kindje" van de categorie).
 - **Eager Loading (`with()`):** Het vooraf inladen van gerelateerde tabellen (zoals de categorie van een product) in één ademteug.
 - **N+1 Probleem:** Een enorme performance-killer (traagheid) die ontstaat als je géén Eager Loading gebruikt en de database in een `foreach` loop 100 keer apart wordt aangesproken.
 - **Scope / Local Scope:** Een herbruikbare query-filter gecentraliseerd in je Model (bijv. `Product::active()`).
