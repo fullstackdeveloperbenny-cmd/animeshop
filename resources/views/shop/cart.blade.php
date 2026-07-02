@@ -16,6 +16,22 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="bg-red-500/20 border border-red-500/50 text-red-400 px-6 py-4 rounded-xl mb-8 font-bold">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if(!empty($warnings))
+            <div class="bg-orange-500/20 border border-orange-500/50 text-orange-400 px-6 py-4 rounded-xl mb-8 font-bold">
+                <ul class="list-disc pl-5">
+                    @foreach($warnings as $warning)
+                        <li>{{ $warning }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @if($errors->any())
             <div class="bg-red-500/20 border border-red-500/50 text-red-400 px-6 py-4 rounded-xl mb-8 font-bold">
                 <ul class="list-disc pl-5">

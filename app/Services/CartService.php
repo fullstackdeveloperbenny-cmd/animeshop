@@ -79,6 +79,51 @@ class CartService
     }
 
     /**
+     * Valideert de huidige winkelwagen tegen de actuele database voorraad.
+     * Past de wagen aan indien nodig en geeft waarschuwingen terug.
+     */
+    public function validateCartStock(): array
+    {
+        $cart = $this->getCart();
+        $warnings = [];
+        $hasChanges = false;
+
+        foreach ($cart as $itemKey => $item) {
+            $variantId = $item['variant_id'];
+            if ($variantId) {
+                $variant = Variant::find($variantId);
+                
+                // Variant bestaat niet meer
+                if (!$variant) {
+                    $warnings[] = "Het product '{$item['name']}' is helaas niet meer leverbaar en is verwijderd.";
+                    unset($cart[$itemKey]);
+                    $hasChanges = true;
+                    continue;
+                }
+
+                // Voorraad is 0
+                if ($variant->stock <= 0) {
+                    $warnings[] = "Het product '{$item['name']}' is helaas uitverkocht en is uit je winkelwagen verwijderd.";
+                    unset($cart[$itemKey]);
+                    $hasChanges = true;
+                } 
+                // Klant heeft er meer in wagen dan de voorraad toelaat
+                elseif ($item['quantity'] > $variant->stock) {
+                    $warnings[] = "Van '{$item['name']}' zijn er nog maar {$variant->stock} op voorraad. Je aantal is automatisch verlaagd.";
+                    $cart[$itemKey]['quantity'] = $variant->stock;
+                    $hasChanges = true;
+                }
+            }
+        }
+
+        if ($hasChanges) {
+            Session::put($this->sessionKey, $cart);
+        }
+
+        return $warnings;
+    }
+
+    /**
      * Pas de hoeveelheid van een item aan (meer/minder)
      */
     public function update(string $itemKey, int $quantity): void

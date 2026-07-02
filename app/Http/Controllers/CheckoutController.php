@@ -53,6 +53,13 @@ class CheckoutController extends Controller
      */
     public function process(CheckoutProcessRequest $request, ProcessCheckoutAction $processCheckoutAction)
     {
+        // 1. Zorg dat we altijd actuele voorraad hebben vóór betaling (Race Condition fix!)
+        $warnings = $this->cartService->validateCartStock();
+        
+        if (!empty($warnings)) {
+            return redirect()->route('cart.index')->with('error', 'De voorraad van een of meerdere producten is tussentijds gewijzigd. Je winkelwagen is automatisch aangepast.');
+        }
+
         $cartItems = $this->cartService->getCart();
         
         if (empty($cartItems)) {

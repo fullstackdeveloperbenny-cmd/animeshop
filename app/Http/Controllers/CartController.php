@@ -16,10 +16,13 @@ class CartController extends Controller
 
     public function index()
     {
+        // 1. Zorg dat we altijd actuele voorraad hebben (Race Condition fix!)
+        $warnings = $this->cartService->validateCartStock();
+
         $cartItems = $this->cartService->getCart();
         $total = $this->cartService->getTotal();
         
-        return view('shop.cart', compact('cartItems', 'total'));
+        return view('shop.cart', compact('cartItems', 'total', 'warnings'));
     }
 
     public function add(CartAddRequest $request, Product $product)
